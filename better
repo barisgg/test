@@ -1,0 +1,64 @@
+import string 
+
+def alphabet_position(letter):
+    x = letter.lower()
+    alphabet = string.ascii_lowercase
+    
+    return int(alphabet.index(x))
+
+
+def rotate_character(char, rot):
+    index = alphabet_position(char)
+    upper = string.ascii_uppercase
+    lower = string.ascii_lowercase
+    y = index + rot
+    
+
+    if y >= 25:
+        if char.islower() is True:
+            return lower[y % 26]
+        if char.isupper() is True:
+            return upper[y % 26] 
+    elif y <= 24:
+        if char.islower() is True:
+            return lower[y]
+        elif char.isupper() is True:
+            return upper[y] 
+     
+   
+         
+def encrypt(text, key):
+    message = ''
+    rot_list = []
+    stop = 0
+    x = 0
+    for char in key:
+        rot_list.append(alphabet_position(char))
+    while stop < len(text):
+        for char in text:
+            
+            if x >= len(rot_list):
+                x = 0
+           
+            if string.punctuation.find(char) > -1:
+                message += char
+            elif char == " ":
+                message += char
+            else:
+                message += rotate_character(char, rot_list[x])
+                stop += 1
+                x += 1
+            
+        
+            
+        return message
+
+def main(): 
+    text = input('Type a message: ')
+    key = input('Encryption key: ')
+    print(encrypt(text, key))
+
+
+if __name__ == "__main__":
+    main()
+
